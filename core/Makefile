@@ -4992,11 +4992,14 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(OTA_FROM_TARGET_
 	$(call build-ota-package-target,$@,-k $(KEY_CERT_PAIR) --backup=$(backuptool) --output_metadata_path $(INTERNAL_OTA_METADATA))
 
 TARGET_PACKAGE := $(PRODUCT_OUT)/$(TOXYC_VERSION).zip
+
+MD5 := prebuilts/build-tools/path/$(HOST_OS)-x86/md5sum
+
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(TARGET_PACKAGE) > $(TARGET_PACKAGE).md5sum
+	$(hide) $(MD5) $(TARGET_PACKAGE) > $(TARGET_PACKAGE).md5sum
 	echo -e ${CL_RED}"████████  ██████  ██   ██ ██    ██  ██████  ██████  ███████ "${CL_RED} 
 	echo -e ${CL_RED}"   ██    ██    ██  ██ ██   ██  ██  ██      ██    ██ ██      "${CL_RED} 
 	echo -e ${CL_RED}"   ██    ██    ██   ███     ████   ██      ██    ██ ███████ "${CL_RED} 
